@@ -25,9 +25,9 @@ module.exports = {
                 email,
                 telefone,
             })
-            return res.json([{
+            return res.json({
                 "message": "Obrigado por se cadastrar"
-            }, lead]);
+            });
         }
         return res.json({
             "message": "wow! já temos seu cadastro"
