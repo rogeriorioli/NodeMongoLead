@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 import api from '../../services/'
-import {Table , Col , Row, Container, Jumbotron} from 'react-bootstrap'
+import {Table , Col , Row, Container, Jumbotron, Button} from 'react-bootstrap'
 // import { Container } from './styles';
 
 export default function Sobre() {
     const [leads, setLeads] = useState([]);
+    const [message, setMessage] = useState('');
+
+   
 
     const [idIncrement, setIdIncrement] = useState(0) ;
 
@@ -21,12 +24,22 @@ export default function Sobre() {
         sendNumber();
     }, [setLeads])
     
+    const deleteLead = (id) => {
+        api.delete(`/lead/${id}`).then(success => {
+            setMessage(success.data.message);
+
+            setTimeout(() => {
+                document.location.reload(true);
+            },3000)
+        })
+    }
    
     return (
         <Container>
             <Jumbotron>
 
                 <h2>Sobre</h2>
+                <p>{message !== '' ? message :  ''} </p>
             </Jumbotron>
             <Table striped bordered hover variant="dark"> 
                 <thead>
@@ -38,13 +51,14 @@ export default function Sobre() {
                         <th>aceite</th>
                         <th>data de cadastro</th>
                         <th>editar</th>
+                        <th>Deletar</th>
                     </tr>
                 </thead>
                 <tbody>
 
                         {leads.map((lead , i)=> {
                             return (
-                                    <tr key={i}>
+                                    <tr key={i} >
                                         
                                     <td>{i+idIncrement}</td>
                                     <td>{lead.nome}</td>
@@ -52,7 +66,8 @@ export default function Sobre() {
                                     <td>{lead.telefone}</td>
                                     <td>{lead.aceite === false ? 'não aceito' : 'aceito'}</td>
                                     <td>{lead.createdAt.toLocaleString()}</td>
-                                    <td><a href={`edit/${lead._id}`}>editar</a></td>
+                                    <td><a className="btn btn-warning" href={`edit/${lead._id}`}>editar</a></td>
+                                    <td><Button variant="danger" onClick={() => deleteLead(lead._id)} >x</Button></td>
                                     </tr>
                             )
                         })}

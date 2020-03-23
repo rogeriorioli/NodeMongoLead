@@ -8,7 +8,7 @@ const Home = () => {
         <Container>
             <S.Base>
             <Row >
-                <Col>
+                <Col className="d-flex align-items-center">
                     <S.Title> Receba informações sobre a Nova Corona Virus <br/> (Covid 19)</S.Title>
                 </Col>
                 <Col>

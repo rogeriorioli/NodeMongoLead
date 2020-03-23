@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useRef } from 'react';
 import {Form, Button, Alert } from 'react-bootstrap'
 import api from '../../services'
 import * as S from './styles';
@@ -6,6 +6,7 @@ import * as S from './styles';
 export default function FormLead() {
     const [lead , setLead] = useState({});
     const [message, setMessage] = useState('')
+    const cleanForm = useRef(null)
 
     const getFormData = (e) => {
         e.persist();
@@ -17,13 +18,13 @@ export default function FormLead() {
 
             const { message }= success.data
             setMessage(message)
-
-        })
+        })  
+        cleanForm.current.reset();
     }
     console.log(lead)
    return (
       <S.Formbase>
-        <Form onSubmit={sendFormData}>
+        <Form  ref={cleanForm}  onSubmit={sendFormData}>
             <Form.Group>
                     <Form.Control size="lg" type="text" onChange={getFormData} placeholder="Nome" name="nome"/>
                     <Form.Control size="lg" type="email"  onChange={getFormData}placeholder="Email" name="email" />
